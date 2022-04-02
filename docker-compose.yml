@@ -11,14 +11,13 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    container_name: nginx
+    container_name: nginx_travelsales
     ports:
-      - 80:80
+      - 8001:80
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
       - php
-      - redis
       - mysql
       # - mailhog
     networks:
@@ -26,11 +25,13 @@ services:
 
   mysql:
     image: mariadb:10.5
-    container_name: mysql
+    container_name: mysql_travelsales
     restart: unless-stopped
     tty: true
     ports:
-      - 3306:3306
+      - 3307:3306
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: homestead
       MYSQL_USER: homestead
@@ -48,18 +49,9 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    container_name: php
+    container_name: php_travelsales
     volumes:
       - ./src:/var/www/html:delegated
-    networks:
-      - laravel
-
-  redis:
-    image: redis:alpine
-    container_name: redis
-    restart: unless-stopped
-    ports:
-      - 6379:6379
     networks:
       - laravel
 
@@ -70,7 +62,7 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    container_name: composer
+    container_name: composer_travelsales
     volumes:
       - ./src:/var/www/html
     working_dir: /var/www/html
@@ -83,7 +75,7 @@ services:
 
   npm:
     image: node:13.7
-    container_name: npm
+    container_name: npm_travelsales
     volumes:
       - ./src:/var/www/html
     ports:
@@ -101,7 +93,7 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
-    container_name: artisan
+    container_name: artisan_travelsales
     volumes:
       - ./src:/var/www/html:delegated
     depends_on:
@@ -111,6 +103,14 @@ services:
     networks:
       - laravel
 
+  # redis:
+  #   image: redis:alpine
+  #   container_name: redis_travelsales
+  #   restart: unless-stopped
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - laravel
   # mailhog:
   #   image: mailhog/mailhog:latest
   #   container_name: mailhog
