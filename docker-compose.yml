@@ -105,7 +105,7 @@ services:
 
   # redis:
   #   image: redis:alpine
-  #   container_name: redis_travelsales
+  #   container_name: redis_app
   #   restart: unless-stopped
   #   ports:
   #     - 6379:6379
@@ -113,7 +113,7 @@ services:
   #     - laravel
   # mailhog:
   #   image: mailhog/mailhog:latest
-  #   container_name: mailhog
+  #   container_name: mailhog_app
   #   ports:
   #     - 1025:1025
   #     - 8025:8025
